@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>What's my Vehicle worth?</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" link href="main.css">
+    <link href="normalize.css">
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>What's it worth?</h1>
+        </header>
+        <hr>
+        <main>
+            <h4>Enter the specific information below to determine the value of your vehicle.</h4>
+            <form class="vehicle-value">
+                <label for="make">Make</label>
+                <input id="make" type="text" placeholder="e.g. Ford, Chevrolet, Honda" name="tags" size="30" required>
+                <br><br>
+                <label for="model">Model</label>
+                <input id="model" type="text" placeholder="e.g. Focus, Impala, Civic" name="tags" size="30" required>
+                <br><br>
+                <label for="year">Year</label>
+                <input id="year" type="text" placeholder="" name="tags" size="4" required>
+                <br><br>
+                <label for="zip">Your Zip Code</label>
+                <input id="zip" type="text" placeholder="" name="tags" size="5" required>
+                <br><br>
+                <input type="submit" value="Submit">
+            </form>
+        </main>
+    </div>
+
+    <div class="results-container">
+        <div class="search-results"></div>
+        <div class="results"></div>
+    </div>
+    <p class="disclosure">The Edmunds.com TMV® (Edmunds.com True Market Value®) price is Edmunds.com’s determination of the current average base [“dealer retail”] [“private party”] [“dealer trade-in”] price in the area indicated by the Zip Code provided, unadjusted for color or any options. (If no Zip Code was provided, this price is the national price.)<br><br> TMV® prices are copyrighted by Edmunds.com, Inc., which reserves all rights. Edmunds®, Edmunds.com True Market Value® and TMV® are registered trademarks of Edmunds.com, Inc. Edmunds.com, Inc. is not affiliated with this website or app.
+    </p>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+</body>
+
+</html>
