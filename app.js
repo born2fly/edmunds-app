@@ -1,6 +1,7 @@
 /* 
 Get the true market value of a used vehicle based on it's current location, using the Edmunds API.
-                                Coding Requirements:
+                    
+					 Note to self - Coding Requirements:
 
         1- Obtain Edmunds vehicle ID# based on make, model and year.
         2- Use that ID# to initate a search for vehicles True Market Value based on zip.
@@ -34,10 +35,10 @@ function showInfo(item) {
 	var usedValue = item.regionalAdjustment.usedPrivateParty;
 	var tradeinValue = item.regionalAdjustment.usedTradeIn;
 	
+	// console.log(usedValue);
+	// console.log(tradeinValue);
 	// console.log();
-	// console.log();
-	// console.log();
-	// return '<a href=https://' + videoID + '>' + getTitle + '<br><img src="' + videoThumb + '"></a><br>';
+	// return  usedValue +  + tradeinValue + ;
 }
 
 
@@ -46,6 +47,7 @@ function showInfo(item) {
 $(document).ready(function () {
 	var tags = ' ';
 	var zip = ' ';
+	var curday = new Date();
 	$('.vehicle-value').submit(function (e) {
 		e.preventDefault();
 
@@ -55,6 +57,7 @@ $(document).ready(function () {
 		// read user input --
 		tags = $(this).find("input[name='tags']").val();
 		getInfo(tags);
+		console.log(curday);
 	});
 
 });
