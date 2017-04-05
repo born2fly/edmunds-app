@@ -7,34 +7,61 @@ Get the true market value of a used vehicle based on it's current location, usin
         2- Use that ID# to initate a search for vehicles True Market Value based on zip.
         3- Return TMV info to user. 
 
+	question - How do I append values to the endpoint after getting input val's??
+
 */
 
-
 // the parameters we need to pass in our request to Edmund's API --
-var getInfo = function (tags, page) {
-	console.log(page);
+var getInfo = function (make, model, year, zip) {
+	console.log(make + ',' + model + ',' + year + ',' + zip);
 	var request = {};
-	 
-		request = {
-			
-			key: "2wdaf85q4nj24k5s55j5pd5y",
-        };	
+	request = {
+		fmt: 'json',
+		api_key: "2wdaf85q4nj24k5s55j5pd5y",
+		state: 'used' // changed this to 'used' from 'new'
+	};
+	var url = "http://api.edmunds.com/api/vehicle/v2/" + make;
+	// ajax call -- set the parameters --  edmunds TMV endpoint --
+	$.ajax({
+			url: url,
+			data: request,
+			type: "GET",
+
+
+		})
+		.done(function (result) {
+			console.log(result);
+			var id = result.id;
+			getValue(id, zip);
+		});
 };
 
-        // ajax call -- set the parameters --  edmunds TMV endpoint --
+var getValue = function (id, zip) {
+	var request = {
+		styleid: id,
+		zip: zip,
+		fmt: 'json',
+		api_key: "2wdaf85q4nj24k5s55j5pd5y"
+	};
 	$.ajax({
 			url: "https://api.edmunds.com/v1/api/tmv/tmvservice/calculatetypicallyequippedusedtmv",
 			data: request,
-			dataType: "jsonp", //use jsonp to avoid cross origin issues --
-			type: "GET",
+			type: "GET"
+
+		})
+		.done(function (result) {
+			console.log(result);
 		});
+	console.log(id);
+};
 
 
-        // find requested items and display them --
+// find requested items and display them --
 function showInfo(item) {
-	var usedValue = item.regionalAdjustment.usedPrivateParty;
-	var tradeinValue = item.regionalAdjustment.usedTradeIn;
-	
+	var usedValue = item.tmv.nationalBasePrice.regionalAdjustment.usedPrivateParty;
+	var tradeinValue = item.tmv.nationalBasePrice.regionalAdjustment.usedTradeIn;
+	return usedValue + tradeinValue + curday;    // added this since last session
+
 	// console.log(usedValue);
 	// console.log(tradeinValue);
 	// console.log();
@@ -43,21 +70,28 @@ function showInfo(item) {
 
 
 
-    // listener --
+// listener --
 $(document).ready(function () {
-	var tags = ' ';
+	var make = ' ';
+	var model = ' ';
+	var year = ' ';
 	var zip = ' ';
 	var curday = new Date();
+	console.log(curday);
+
 	$('.vehicle-value').submit(function (e) {
 		e.preventDefault();
-
 		// reset results div -- clear results
 		$('.results').html('');
 
 		// read user input --
-		tags = $(this).find("input[name='tags']").val();
-		getInfo(tags);
-		console.log(curday);
+		make = $(this).find("input[name='make']").val();
+		if (make < 1990) alert("You must enter a year from 1990 or later");
+		model = $(this).find("input[name='model']").val();
+		year = $(this).find("input[name='year']").val();
+		zip = $(this).find("input[name='zip']").val();
+		getInfo(make, model, year, zip);
+
 	});
 
 });
