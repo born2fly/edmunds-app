@@ -80,20 +80,20 @@ $(document).ready(function () {
 	var curday = new Date();
 	console.log(curday);
 
-	$('.vehicle-value').submit(function (e) {
-		e.preventDefault();
-		// reset results div -- clear results
-		$('.results').html('');
+$('.vehicle-value').submit(function (e) {
+	e.preventDefault();
+	// reset results div -- clear results
+	$('.results').html('');
 
-		// read user input --
-		make = $(this).find("input[name='make']").val();
-		model = $(this).find("input[name='model']").val();
-		year = $(this).find("input[name='year']").val();
-		if (year < 1990) alert('You must enter a year from 1990 or later');
-		zip = $(this).find("input[name='zip']").val();
-		getInfo(make, model, year, zip);
+	// read user input --
+	make = $(this).find("input[name='make']").val();
+	model = $(this).find("input[name='model']").val();
+	year = $(this).find("input[name='year']").val();
+	if (year < 1990) alert('You must enter a year from 1990 or later');
+	zip = $(this).find("input[name='zip']").val();
+	getInfo(make, model, year, zip);
 
-	});
+});
 
 	//button listener that would return the second api call showInfo(style id goes here)
 });
