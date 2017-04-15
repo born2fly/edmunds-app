@@ -1,15 +1,4 @@
-/* 
-Get the true market value of a used vehicle based on it's current location, using the Edmunds API.
-                    
-					 Note to self - Coding Requirements:
 
-        1- Obtain Edmunds vehicle ID# based on make, model and year.
-        2- Use that ID# to initate a search for vehicles True Market Value based on zip.
-        3- Return TMV info to user. 
-
-	question - How do I append values to the endpoint after getting input val's??
-
-*/
 
 // the parameters we need to pass in our request to Edmund's API --
 var getInfo = function (make, model, year, zip) {
@@ -20,30 +9,28 @@ var getInfo = function (make, model, year, zip) {
 		api_key: "64tb3btuj5zr4pr8zxsdg94a",
 		state: 'used', // changed this to 'used' from 'new'
 		year: year
-	};
-	var url = "http://api.edmunds.com/api/vehicle/v2/" + make + "/models/";
-	// ajax call -- set the parameters --  edmunds TMV endpoint --
-	$.ajax({
-			url: url,
-			data: request,
-			type: "GET",
+};
 
-
-		})
-		.done(function (result) {
-			console.log(result);
-			var id = result.models[0].years[0].styles[0].id;
-			//list of all available cars that have an id...shown in button format back to user
-			//for(var i = 0; i > result.models.length; i++;){
-			//if(model == result.models[i].name){
-			//	display styles...set id to object.id
-			//	var styles;
-			//	for()
-			//		append <button attr=id> show style 
-			//}
-
-			getValue(id, zip);
-		});
+var url = "http://api.edmunds.com/api/vehicle/v2/" + make + "/models/";
+// ajax call -- set the parameters --  edmunds TMV endpoint --
+$.ajax({
+		url: url,
+		data: request,
+		type: "GET",
+	})
+	.done(function (result) {
+		console.log(result);
+		var id = result.models[0].years[0].styles[0].id;
+		//list of all available cars that have an id...shown in button format back to user
+		//for(var i = 0; i > result.models.length; i++;){
+		//if(model == result.models[i].name){
+		//	display styles...set id to object.id
+		//	var styles;
+		//	for()
+		//		append <button attr=id> show style 
+		//}
+	  getValue(id, zip);
+});
 };
 
 var getValue = function (id, zip) {
@@ -52,20 +39,19 @@ var getValue = function (id, zip) {
 		zip: zip,
 		fmt: 'json',
 		api_key: "64tb3btuj5zr4pr8zxsdg94a"
-	};
-	$.ajax({
-			url: "https://api.edmunds.com/v1/api/tmv/tmvservice/calculatetypicallyequippedusedtmv",
-			data: request,
-			type: "GET"
-
-		})
-		.done(function (result) {
-			console.log(result);
-			showInfo(result);
-		});
-	console.log(id);
 };
 
+$.ajax({
+	url: "https://api.edmunds.com/v1/api/tmv/tmvservice/calculatetypicallyequippedusedtmv",
+	data: request,
+	type: "GET"
+})
+	.done(function (result) {
+		console.log(result);
+		showInfo(result);
+});
+		console.log(id);
+};
 
 // find requested items and display them --
 function showInfo(item) {
@@ -76,17 +62,14 @@ function showInfo(item) {
 	console.log(usedValue);
 	console.log(usedRegionalAdd);
 	console.log(ballParkPrivate);
-	$('.results').append(curday + "<h2>The estimated value is:</h2>" + "$"+ ballParkPrivate);
+	$('.results').append(curday + "<h2>The estimated value is:</h2>" + "$" + ballParkPrivate);
 	//var tradeinValue = item.tmv.nationalBasePrice.regionalAdjustment.usedTradeIn;
-	return ballParkPrivate;    // added this since last session
-
+	return ballParkPrivate; // added this since last session
 	// console.log(usedValue);
 	// console.log(tradeinValue);
 	// console.log();
 	// return  usedValue +  + tradeinValue + ;
 }
-
-
 
 // listener --
 $(document).ready(function () {
@@ -113,5 +96,4 @@ $(document).ready(function () {
 	});
 
 	//button listener that would return the second api call showInfo(style id goes here)
-
 });
