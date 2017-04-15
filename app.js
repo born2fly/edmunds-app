@@ -17,10 +17,11 @@ var getInfo = function (make, model, year, zip) {
 	var request = {};
 	request = {
 		fmt: 'json',
-		api_key: "2wdaf85q4nj24k5s55j5pd5y",
-		state: 'used' // changed this to 'used' from 'new'
+		api_key: "64tb3btuj5zr4pr8zxsdg94a",
+		state: 'used', // changed this to 'used' from 'new'
+		year: year
 	};
-	var url = "http://api.edmunds.com/api/vehicle/v2/" + make;
+	var url = "http://api.edmunds.com/api/vehicle/v2/" + make + "/models/";
 	// ajax call -- set the parameters --  edmunds TMV endpoint --
 	$.ajax({
 			url: url,
@@ -31,7 +32,16 @@ var getInfo = function (make, model, year, zip) {
 		})
 		.done(function (result) {
 			console.log(result);
-			var id = result.id;
+			var id = result.models[0].years[0].styles[0].id;
+			//list of all available cars that have an id...shown in button format back to user
+			//for(var i = 0; i > result.models.length; i++;){
+			//if(model == result.models[i].name){
+			//	display styles...set id to object.id
+			//	var styles;
+			//	for()
+			//		append <button attr=id> show style 
+			//}
+
 			getValue(id, zip);
 		});
 };
@@ -41,7 +51,7 @@ var getValue = function (id, zip) {
 		styleid: id,
 		zip: zip,
 		fmt: 'json',
-		api_key: "2wdaf85q4nj24k5s55j5pd5y"
+		api_key: "64tb3btuj5zr4pr8zxsdg94a"
 	};
 	$.ajax({
 			url: "https://api.edmunds.com/v1/api/tmv/tmvservice/calculatetypicallyequippedusedtmv",
@@ -51,6 +61,7 @@ var getValue = function (id, zip) {
 		})
 		.done(function (result) {
 			console.log(result);
+			showInfo(result);
 		});
 	console.log(id);
 };
@@ -58,9 +69,16 @@ var getValue = function (id, zip) {
 
 // find requested items and display them --
 function showInfo(item) {
-	var usedValue = item.tmv.nationalBasePrice.regionalAdjustment.usedPrivateParty;
-	var tradeinValue = item.tmv.nationalBasePrice.regionalAdjustment.usedTradeIn;
-	return usedValue + tradeinValue + curday;    // added this since last session
+	var usedValue = item.tmv.nationalBasePrice.usedPrivateParty;
+	var usedRegionalAdd = item.tmv.regionalAdjustment.usedPrivateParty; //173
+	var ballParkPrivate = usedValue + usedRegionalAdd;
+	var curday = new Date();
+	console.log(usedValue);
+	console.log(usedRegionalAdd);
+	console.log(ballParkPrivate);
+	$('.results').append(curday + "<h2>The estimated value is:</h2>" + "$"+ ballParkPrivate);
+	//var tradeinValue = item.tmv.nationalBasePrice.regionalAdjustment.usedTradeIn;
+	return ballParkPrivate;    // added this since last session
 
 	// console.log(usedValue);
 	// console.log(tradeinValue);
@@ -86,12 +104,14 @@ $(document).ready(function () {
 
 		// read user input --
 		make = $(this).find("input[name='make']").val();
-		if (make < 1990) alert("You must enter a year from 1990 or later");
 		model = $(this).find("input[name='model']").val();
 		year = $(this).find("input[name='year']").val();
+		if (year < 1990) alert('You must enter a year from 1990 or later');
 		zip = $(this).find("input[name='zip']").val();
 		getInfo(make, model, year, zip);
 
 	});
+
+	//button listener that would return the second api call showInfo(style id goes here)
 
 });
