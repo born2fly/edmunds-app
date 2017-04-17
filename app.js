@@ -94,6 +94,5 @@ $('.vehicle-value').submit(function (e) {
 	getInfo(make, model, year, zip);
 
 });
-
 	//button listener that would return the second api call showInfo(style id goes here)
 });
