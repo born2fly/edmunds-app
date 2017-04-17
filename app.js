@@ -6,7 +6,7 @@ var getInfo = function (make, model, year, zip) {
 	var request = {};
 	request = {
 		fmt: 'json',
-		api_key: "64tb3btuj5zr4pr8zxsdg94a",
+		api_key: "2wdaf85q4nj24k5s55j5pd5y",
 		state: 'used', // changed this to 'used' from 'new'
 		year: year
 };
@@ -38,7 +38,7 @@ var getValue = function (id, zip) {
 		styleid: id,
 		zip: zip,
 		fmt: 'json',
-		api_key: "64tb3btuj5zr4pr8zxsdg94a"
+		api_key: "2wdaf85q4nj24k5s55j5pd5y"
 };
 
 $.ajax({
