@@ -31,6 +31,7 @@ h4 {
     padding-top: 0px;
     margin-bottom: 25px;
     font-size: 12px;
+    display: inline;
     background-color: yellow;
 }
 
